@@ -1,9 +1,8 @@
 package ru.netology.tests;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import com.codeborne.selenide.logevents.SelenideLogger;
+import io.qameta.allure.selenide.AllureSelenide;
+import org.junit.jupiter.api.*;
 import ru.netology.data.DataHelper;
 import ru.netology.data.SQLHelper;
 import ru.netology.pages.FormPage;
@@ -33,9 +32,15 @@ public class PaymentGateTests {
         var formPage = paymentPage.formPage();
     }
 
+    @BeforeAll
+    static void setUpAll() {
+        SelenideLogger.addListener("allure", new AllureSelenide());
+    }
+
     @AfterAll
     static void tearDownAll() {
         cleanDatabase();
+        SelenideLogger.removeListener("allure");
     }
 
     @Test
