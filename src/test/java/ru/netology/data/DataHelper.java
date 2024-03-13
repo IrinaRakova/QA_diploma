@@ -115,18 +115,19 @@ public class DataHelper {
     }
 
     public static String getSymbols() {
-    String[] specialSymbols = {"!", "@", "#", "$", "%", "^", "&", "(", ")", "'", "_", "+", "?", "<"};
-    int numberSpecialSymbols = 14;
-    int randomIndexSpecialSymbols = (int) (Math.random() * numberSpecialSymbols);
-    int i = 0;
-    String result = "";
+        String[] specialSymbols = {"!", "@", "#", "$", "%", "^", "&", "(", ")", "'", "_", "+", "?", "<"};
+        int numberSpecialSymbols = 14;
+        int randomIndexSpecialSymbols = (int) (Math.random() * numberSpecialSymbols);
+        int i = 0;
+        String result = "";
         while (i < 10) {
-        result = result + specialSymbols[randomIndexSpecialSymbols];
-        randomIndexSpecialSymbols = (int) (Math.random() * numberSpecialSymbols);
-        i++;
-    }
+            result = result + specialSymbols[randomIndexSpecialSymbols];
+            randomIndexSpecialSymbols = (int) (Math.random() * numberSpecialSymbols);
+            i++;
+        }
         return result;
     }
+
     public static String get17Numbers() {
         return FAKER.regexify("[0-9]{17}");
     }

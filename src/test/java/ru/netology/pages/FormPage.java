@@ -17,8 +17,8 @@ public class FormPage {
     private SelenideElement userNameField = $$("[class='input-group__input-case']").find(exactText("Владелец"));
     private SelenideElement cvcField = $$("[class='input-group__input-case']").find(exactText("CVC/CVV"));
     private SelenideElement button = $$("button").find(exactText("Продолжить"));
-    private SelenideElement errorFormatLabel =$$("[class=input__sub]").find(exactText("Неверный формат"));
-    private SelenideElement errorTimeLabel =$$("[class=input__sub]").find(exactText("Неверно указан срок " +
+    private SelenideElement errorFormatLabel = $$("[class=input__sub]").find(exactText("Неверный формат"));
+    private SelenideElement errorTimeLabel = $$("[class=input__sub]").find(exactText("Неверно указан срок " +
             "действия карты"));
     private SelenideElement expiredLabel = $$("[class=input__sub]").find(exactText("Истёк срок " +
             "действия карты"));
@@ -56,9 +56,11 @@ public class FormPage {
         userNameField.$("input").setValue(userName);
     }
 
-    public void setCvcField(String cvc) {cvcField.$("input").setValue(cvc);}
+    public void setCvcField(String cvc) {
+        cvcField.$("input").setValue(cvc);
+    }
 
-    public void buttonClick(){
+    public void buttonClick() {
         button.click();
     }
 

@@ -9,15 +9,17 @@ import static com.codeborne.selenide.Selenide.$$;
 
 public class ShopPage {
     private SelenideElement head = $("h2");
+
     public ShopPage() {
         head.shouldBe(visible);
     }
-    public CreditGatePage creditPage(){
+
+    public CreditGatePage creditPage() {
         $$("button").find(exactText("Купить в кредит")).click();
         return new CreditGatePage();
     }
 
-    public PaymentGatePage paymentPage(){
+    public PaymentGatePage paymentPage() {
         $$("button").find(exactText("Купить")).click();
         return new PaymentGatePage();
     }
