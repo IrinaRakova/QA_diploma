@@ -25,6 +25,13 @@ public class SQLHelper {
             return QUERY_RUNNER.query(conn, statusSQL, new ScalarHandler<String>());
         }
 
+    @SneakyThrows
+    public static String getVerificationStatusPaymentGate() {
+        var statusSQL = "SELECT status FROM payment_entity ORDER BY created DESC LIMIT 1";
+        var conn = getConn();
+        return QUERY_RUNNER.query(conn, statusSQL, new ScalarHandler<String>());
+    }
+
         @SneakyThrows
         public static void cleanDatabase() {
             var connection = getConn();

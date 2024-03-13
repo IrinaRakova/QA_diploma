@@ -14,8 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static ru.netology.data.DataHelper.*;
 import static ru.netology.data.SQLHelper.cleanDatabase;
 
-
-public class CreditGateTests {
+public class PaymentGateTests {
     private String successfulMessage = "Операция одобрена Банком.";
     private String errorMessage = "Ошибка! Банк отказал в проведении операции.";
 
@@ -30,8 +29,8 @@ public class CreditGateTests {
     @BeforeEach
     void setup() {
         var shopPage = open("http://localhost:8080", ShopPage.class);
-        var creditPage = shopPage.creditPage();
-        var formPage = creditPage.formPage();
+        var paymentPage = shopPage.paymentPage();
+        var formPage = paymentPage.formPage();
     }
 
     @AfterAll
@@ -40,29 +39,29 @@ public class CreditGateTests {
     }
 
     @Test
-    @DisplayName("Покупка тура в кредит по «одобренной» карте")
+    @DisplayName("Покупка тура по «одобренной» карте")
     void shouldBuyOnApprovedCard() {
         var formPage = new FormPage();
         var cardInfo = DataHelper.getValidCardInfoApproved();
         formPage.fillForm(cardInfo);
         formPage.findSuccessfulMessage(successfulMessage);
         var number = cardInfo.getNumber();
-        assertEquals(DataHelper.getVerifyStatus(number), SQLHelper.getVerificationStatusCreditGate());
+        assertEquals(DataHelper.getVerifyStatus(number), SQLHelper.getVerificationStatusPaymentGate());
     }
 
     @Test
-    @DisplayName("Покупка тура в кредит по «отклоненной» карте")
+    @DisplayName("Покупка тура по «отклоненной» карте")
     void shouldBuyOnDeclinedCard() {
         var formPage = new FormPage();
         var cardInfo = DataHelper.getValidCardInfoDeclined();
         formPage.fillForm(cardInfo);
         formPage.findErrorMessage(errorMessage);
         var number = cardInfo.getNumber();
-        assertEquals(DataHelper.getVerifyStatus(number), SQLHelper.getVerificationStatusCreditGate());
+        assertEquals(DataHelper.getVerifyStatus(number), SQLHelper.getVerificationStatusPaymentGate());
     }
 
     @Test
-    @DisplayName("Отсутствие возможности покупки тура в кредит с буквенными значениями в поле Номер карты")
+    @DisplayName("Отсутствие возможности покупки тура по карте с буквенными значениями в поле Номер карты")
     void shouldNotBuyWithLettersInCardNumberField() {
         var formPage = new FormPage();
         formPage.setCardNumberField(getLetters());
@@ -75,7 +74,7 @@ public class CreditGateTests {
     }
 
     @Test
-    @DisplayName("Отсутствие возможности покупки тура в кредит при вводе спецсимволов в поле Номер карты")
+    @DisplayName("Отсутствие возможности покупки тура по карте при вводе спецсимволов в поле Номер карты")
     void shouldNotBuyWithSymbolsInCardNumberField() {
         var formPage = new FormPage();
         formPage.setCardNumberField(getSymbols());
@@ -110,7 +109,7 @@ public class CreditGateTests {
     }
 
     @Test
-    @DisplayName("Отсутствие возможности покупки тура в кредит при пустом поле Номер карты")
+    @DisplayName("Отсутствие возможности покупки тура по карте при пустом поле Номер карты")
     void shouldNotBuyWithNullCardNumberField() {
         var formPage = new FormPage();
         formPage.setCardNumberField("");
@@ -123,7 +122,7 @@ public class CreditGateTests {
     }
 
     @Test
-    @DisplayName("Отсутствие возможности покупки тура в кредит с буквенными значениями в поле Месяц")
+    @DisplayName("Отсутствие возможности покупки тура по карте с буквенными значениями в поле Месяц")
     void shouldNotBuyWithLettersInMonthField() {
         var formPage = new FormPage();
         formPage.setCardNumberField(DataHelper.getValidCardInfoApproved().getNumber());
@@ -136,7 +135,7 @@ public class CreditGateTests {
     }
 
     @Test
-    @DisplayName("Отсутствие возможности покупки тура в кредит при вводе спецсимволов в поле Месяц")
+    @DisplayName("Отсутствие возможности покупки тура по карте при вводе спецсимволов в поле Месяц")
     void shouldNotBuyWithSymbolsInMonthField() {
         var formPage = new FormPage();
         formPage.setCardNumberField(DataHelper.getValidCardInfoApproved().getNumber());
@@ -149,7 +148,7 @@ public class CreditGateTests {
     }
 
     @Test
-    @DisplayName("Отсутствие возможности покупки тура в кредит при вводе однозначных чисел в поле Месяц")
+    @DisplayName("Отсутствие возможности покупки тура по карте при вводе однозначных чисел в поле Месяц")
     void shouldNotBuyWithSingleDigitNumberInMonthField() {
         var formPage = new FormPage();
         formPage.setCardNumberField(DataHelper.getValidCardInfoApproved().getNumber());
@@ -162,7 +161,7 @@ public class CreditGateTests {
     }
 
     @Test
-    @DisplayName("Отсутствие возможности покупки тура в кредит при вводе двузначных чисел, больших 12, в поле Месяц")
+    @DisplayName("Отсутствие возможности покупки тура по карте при вводе двузначных чисел, больших 12, в поле Месяц")
     void shouldNotBuyWithMoreThen12InMonthField() {
         var formPage = new FormPage();
         formPage.setCardNumberField(DataHelper.getValidCardInfoApproved().getNumber());
@@ -175,7 +174,7 @@ public class CreditGateTests {
     }
 
     @Test
-    @DisplayName("Отсутствие возможности покупки тура в кредит при вводе более 2 цифр в поле Месяц")
+    @DisplayName("Отсутствие возможности покупки тура по карте при вводе более 2 цифр в поле Месяц")
     void shouldNotBuyWithMoreThen2NumbersInMonthField() {
         var formPage = new FormPage();
         var month = get3Numbers();
@@ -184,7 +183,7 @@ public class CreditGateTests {
     }
 
     @Test
-    @DisplayName("Отсутствие возможности покупки тура в кредит при пустом поле Месяц")
+    @DisplayName("Отсутствие возможности покупки тура по карте при пустом поле Месяц")
     void shouldNotBuyWithNullInMonthField() {
         var formPage = new FormPage();
         formPage.setCardNumberField(DataHelper.getValidCardInfoApproved().getNumber());
@@ -197,7 +196,7 @@ public class CreditGateTests {
     }
 
     @Test
-    @DisplayName("Отсутствие возможности покупки тура в кредит по просроченной карте")
+    @DisplayName("Отсутствие возможности покупки тура по просроченной карте")
     void shouldNotBuyWithLastMonthInMonthField() {
         var formPage = new FormPage();
         formPage.setCardNumberField(DataHelper.getValidCardInfoApproved().getNumber());
@@ -211,7 +210,7 @@ public class CreditGateTests {
 
 
     @Test
-    @DisplayName("Отсутствие возможности покупки тура в кредит при вводе буквенных значениий в поле Год")
+    @DisplayName("Отсутствие возможности покупки тура по карте при вводе буквенных значениий в поле Год")
     void shouldNotBuyWithLettersInYearField() {
         var formPage = new FormPage();
         formPage.setCardNumberField(DataHelper.getValidCardInfoApproved().getNumber());
@@ -224,7 +223,7 @@ public class CreditGateTests {
     }
 
     @Test
-    @DisplayName("Отсутствие возможности покупки тура в кредит при вводе спецсимволов в поле Год")
+    @DisplayName("Отсутствие возможности покупки тура по карте при вводе спецсимволов в поле Год")
     void shouldNotBuyWithSymbolsInYearField() {
         var formPage = new FormPage();
         formPage.setCardNumberField(DataHelper.getValidCardInfoApproved().getNumber());
@@ -237,7 +236,7 @@ public class CreditGateTests {
     }
 
     @Test
-    @DisplayName("Отсутствие возможности покупки тура в кредит при вводе последних 2 цифр года, превышающего текущий " +
+    @DisplayName("Отсутствие возможности покупки тура по карте при вводе последних 2 цифр года, превышающего текущий " +
             "больше чем на 5 лет, в поле Год")
     void shouldNotBuyWithDifferenceMoreThen5YearsInYearField() {
         var formPage = new FormPage();
@@ -251,7 +250,7 @@ public class CreditGateTests {
     }
 
     @Test
-    @DisplayName("Отсутствие возможности покупки тура в кредит при вводе последних 2 цифр года, меньших, " +
+    @DisplayName("Отсутствие возможности покупки тура по карте при вводе последних 2 цифр года, меньших, " +
             "чем последние 2 цифры текущего, в поле Год")
     void shouldNotBuyWithLastYearsInYearField() {
         var formPage = new FormPage();
@@ -265,7 +264,7 @@ public class CreditGateTests {
     }
 
     @Test
-    @DisplayName("Отсутствие возможности покупки тура в кредит при вводе 1 цифры в поле Год")
+    @DisplayName("Отсутствие возможности покупки тура по карте при вводе 1 цифры в поле Год")
     void shouldNotBuyWith1NumberInYearField() {
         var formPage = new FormPage();
         formPage.setCardNumberField(DataHelper.getValidCardInfoApproved().getNumber());
@@ -287,7 +286,7 @@ public class CreditGateTests {
     }
 
     @Test
-    @DisplayName("Отсутствие возможности покупки тура в кредит при пустом поле Год")
+    @DisplayName("Отсутствие возможности покупки тура по карте при пустом поле Год")
     void shouldNotBuyWithNullInYearField() {
         var formPage = new FormPage();
         formPage.setCardNumberField(DataHelper.getValidCardInfoApproved().getNumber());
@@ -300,7 +299,7 @@ public class CreditGateTests {
     }
 
     @Test
-    @DisplayName("Отсутствие возможности покупки тура в кредит с цифровыми значениями в поле Владелец")
+    @DisplayName("Отсутствие возможности покупки тура по карте с цифровыми значениями в поле Владелец")
     void shouldNotBuyWithNumbersInUserNameField() {
         var formPage = new FormPage();
         formPage.setCardNumberField(DataHelper.getValidCardInfoApproved().getNumber());
@@ -313,7 +312,7 @@ public class CreditGateTests {
     }
 
     @Test
-    @DisplayName("Отсутствие возможности покупки тура в кредит со спецсимволами в поле Владелец")
+    @DisplayName("Отсутствие возможности покупки тура по карте со спецсимволами в поле Владелец")
     void shouldNotBuyWithSymbolsInUserNameField() {
         var formPage = new FormPage();
         formPage.setCardNumberField(DataHelper.getValidCardInfoApproved().getNumber());
@@ -326,7 +325,7 @@ public class CreditGateTests {
     }
 
     @Test
-    @DisplayName("Отсутствие возможности покупки тура в кредит при пустом поле Владелец")
+    @DisplayName("Отсутствие возможности покупки тура по карте при пустом поле Владелец")
     void shouldNotBuyWithNullInUserNameField() {
         var formPage = new FormPage();
         formPage.setCardNumberField(DataHelper.getValidCardInfoApproved().getNumber());
@@ -339,7 +338,7 @@ public class CreditGateTests {
     }
 
     @Test
-    @DisplayName("Отсутствие возможности покупки тура в кредит с именем владельца карты, записанным буквами русского " +
+    @DisplayName("Отсутствие возможности покупки тура по карте с именем владельца карты, записанным буквами русского " +
             "алфавита, в поле Владелец")
     void shouldNotBuyWithRussianLettersInUserNameField() {
         var formPage = new FormPage();
@@ -353,7 +352,7 @@ public class CreditGateTests {
     }
 
     @Test
-    @DisplayName("Отсутствие возможности покупки тура в кредит при вводе более 50 символов в поле Владелец")
+    @DisplayName("Отсутствие возможности покупки тура по карте при вводе более 50 символов в поле Владелец")
     void shouldNotBuyWithMoreThen50SymbolsInUserNameField() {
         var formPage = new FormPage();
         var userName = get51Letters();
@@ -362,7 +361,7 @@ public class CreditGateTests {
     }
 
     @Test
-    @DisplayName("Отсутствие возможности покупки тура в кредит с буквенными значениями в поле CVC/CVV")
+    @DisplayName("Отсутствие возможности покупки тура по карте с буквенными значениями в поле CVC/CVV")
     void shouldNotBuyWithLettersInCvcField() {
         var formPage = new FormPage();
         formPage.setCardNumberField(DataHelper.getValidCardInfoApproved().getNumber());
@@ -375,7 +374,7 @@ public class CreditGateTests {
     }
 
     @Test
-    @DisplayName("Отсутствие возможности покупки тура в кредит со спецсимволами в поле CVC/CVV")
+    @DisplayName("Отсутствие возможности покупки тура по карте со спецсимволами в поле CVC/CVV")
     void shouldNotBuyWithSymbolsInCvcField() {
         var formPage = new FormPage();
         formPage.setCardNumberField(DataHelper.getValidCardInfoApproved().getNumber());
@@ -388,7 +387,7 @@ public class CreditGateTests {
     }
 
     @Test
-    @DisplayName("Отсутствие возможности покупки тура в кредит с пустым полем CVC/CVV")
+    @DisplayName("Отсутствие возможности покупки тура по карте с пустым полем CVC/CVV")
     void shouldNotBuyWithNullInCvcField() {
         var formPage = new FormPage();
         formPage.setCardNumberField(DataHelper.getValidCardInfoApproved().getNumber());
@@ -401,7 +400,7 @@ public class CreditGateTests {
     }
 
     @Test
-    @DisplayName("Отсутствие возможности покупки тура в кредит при вводе более чем 3 цифр в поле CVC/CVV")
+    @DisplayName("Отсутствие возможности покупки тура по карте при вводе более чем 3 цифр в поле CVC/CVV")
     void shouldNotBuyWithMoreThen3NumbersInCvcField() {
         var formPage = new FormPage();
         var cvc = get15Numbers();
@@ -410,7 +409,7 @@ public class CreditGateTests {
     }
 
     @Test
-    @DisplayName("Отсутствие возможности покупки тура в кредит при вводе менее чем 3 цифр в поле CVC/CVV")
+    @DisplayName("Отсутствие возможности покупки тура по карте при вводе менее чем 3 цифр в поле CVC/CVV")
     void shouldNotBuyWith1NumbersInCvcField() {
         var formPage = new FormPage();
         formPage.setCardNumberField(DataHelper.getValidCardInfoApproved().getNumber());
@@ -422,3 +421,4 @@ public class CreditGateTests {
         formPage.findErrorLabel(wrongFormat);
     }
 }
+

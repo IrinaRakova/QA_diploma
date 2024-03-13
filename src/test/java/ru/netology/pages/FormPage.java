@@ -86,10 +86,6 @@ public class FormPage {
         obligatoryFieldLabel.shouldHave(text(expectedText), Duration.ofSeconds(15)).shouldBe(visible);
     }
 
-    public void findMaxSymbolsLabel(String expectedText) {
-        maxSymbolsLabel.shouldHave(text(expectedText), Duration.ofSeconds(15)).shouldBe(visible);
-    }
-
     public void getCardNumberField(String cardNumber) {
         cardNumberField.$("input").shouldHave(value(cardNumber));
     }
