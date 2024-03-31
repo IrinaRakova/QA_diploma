@@ -6,7 +6,6 @@ import org.junit.jupiter.api.*;
 import ru.netology.data.DataHelper;
 import ru.netology.data.SQLHelper;
 import ru.netology.pages.CreditGatePage;
-import ru.netology.pages.FormPage;
 import ru.netology.pages.ShopPage;
 
 import static com.codeborne.selenide.Selenide.open;

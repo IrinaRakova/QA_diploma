@@ -5,7 +5,6 @@ import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.*;
 import ru.netology.data.DataHelper;
 import ru.netology.data.SQLHelper;
-import ru.netology.pages.FormPage;
 import ru.netology.pages.PaymentGatePage;
 import ru.netology.pages.ShopPage;
 
