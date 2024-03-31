@@ -10,16 +10,20 @@
 1.	Запустить Docker.
 2.	Запустить контейнеры с помощью команды:
 `docker-compose up`
-3.	Запустить приложение с помощью команды:
-`java -jar ./artifacts/aqa-shop.jar`
-4.	Запустить тесты, путем обращения к необходимой СУБД с помощью следующих команд:
+3.	Запустить приложение, путем обращения к необходимой СУБД, с помощью следующих команд:
+   
+   * Для MySQL: `java "-Dspring.datasource.url=jdbc:mysql://localhost:3306/app" -jar ./artifacts/aqa-shop.jar`
 
-   * Для MySQL: `./gradlew -Durlbd=jdbc:mysql://localhost:3306/app clean test`
+   *	Для PostgreSQL:`java "-Dspring.datasource.url=jdbc:postgresql://localhost:5432/app" -jar ./artifacts/aqa-shop.jar`
 
-   *	Для PostgreSQL:`./gradlew -Durlbd=jdbc:postgresql://localhost:5432/app clean test`
+5.	Запустить тесты, путем обращения к необходимой СУБД, с помощью следующих команд:
+
+   * Для MySQL: `./gradlew clean test "-Ddb.url=jdbc:mysql://localhost:3306/app"`
+
+   *	Для PostgreSQL:`./gradlew clean test "-Ddb.url=jdbc:postgresql://localhost:5432/app"`
 
 Для формирования отчета в Allure необходимо ввести в терминале Intellij IDEA `./gradlew allureServe`
 
-При необходимости отключения SUT, находясь в терминале Intellij IDEA, нажать клавиши `CTRL+C`.
+Для остановки SUT необходимо в терминале Intellij IDEA, нажать клавиши `CTRL+C`.
 
-При необходимости отключения контейнеров в терминале Intellij IDEA нажать клавиши `CTRL+C`, ввести в терминале Intellij IDEA команду: `docker-compose down`
+Для остановки контейнеров необходимо в терминале Intellij IDEA нажать клавиши `CTRL+C`, ввести в терминале Intellij IDEA команду: `docker-compose down`
