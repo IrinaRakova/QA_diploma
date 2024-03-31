@@ -16,7 +16,7 @@
 
    *	Для PostgreSQL:`java "-Dspring.datasource.url=jdbc:postgresql://localhost:5432/app" -jar ./artifacts/aqa-shop.jar`
 
-5.	Запустить тесты, путем обращения к необходимой СУБД, с помощью следующих команд:
+4.	Запустить тесты, путем обращения к необходимой СУБД, с помощью следующих команд:
 
    * Для MySQL: `./gradlew clean test "-Ddb.url=jdbc:mysql://localhost:3306/app"`
 
