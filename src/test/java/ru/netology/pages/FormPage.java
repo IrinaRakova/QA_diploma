@@ -10,8 +10,7 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
 public class FormPage {
-    DataHelper.CardInfo card;
-    private SelenideElement cardNumberField = $$("[class='form-field form-field_size_m form-field_theme_alfa-on-white']").find(exactText("Номер карты"));
+    private SelenideElement cardNumberField = $$("[class='input__inner']").find(exactText("Номер карты"));
     private SelenideElement monthField = $$("[class='input-group__input-case']").find(exactText("Месяц"));
     private SelenideElement yearField = $$("[class='input-group__input-case']").find(exactText("Год"));
     private SelenideElement userNameField = $$("[class='input-group__input-case']").find(exactText("Владелец"));
@@ -32,12 +31,12 @@ public class FormPage {
 
 
     public void fillForm(DataHelper.CardInfo info) {
-        cardNumberField.$("input").setValue(info.getNumber());
-        monthField.$("input").setValue(info.getMonth());
-        yearField.$("input").setValue(info.getYear());
-        userNameField.$("input").setValue(info.getUser());
-        cvcField.$("input").setValue(info.getCvc());
-        button.click();
+        setCardNumberField(info.getNumber());
+        setMonthField(info.getMonth());
+        setYearField(info.getYear());
+        setUserNameField(info.getUser());
+        setCvcField(info.getCvc());
+        buttonClick();
     }
 
     public void setCardNumberField(String number) {
@@ -73,19 +72,19 @@ public class FormPage {
     }
 
     public void findErrorLabel(String expectedText) {
-        errorFormatLabel.shouldHave(text(expectedText), Duration.ofSeconds(15)).shouldBe(visible);
+        errorFormatLabel.shouldHave(text(expectedText)).shouldBe(visible);
     }
 
     public void findErrorTimeLabel(String expectedText) {
-        errorTimeLabel.shouldHave(text(expectedText), Duration.ofSeconds(15)).shouldBe(visible);
+        errorTimeLabel.shouldHave(text(expectedText)).shouldBe(visible);
     }
 
     public void findExpiredLabel(String expectedText) {
-        expiredLabel.shouldHave(text(expectedText), Duration.ofSeconds(15)).shouldBe(visible);
+        expiredLabel.shouldHave(text(expectedText)).shouldBe(visible);
     }
 
     public void findObligatoryFieldLabel(String expectedText) {
-        obligatoryFieldLabel.shouldHave(text(expectedText), Duration.ofSeconds(15)).shouldBe(visible);
+        obligatoryFieldLabel.shouldHave(text(expectedText)).shouldBe(visible);
     }
 
     public void getCardNumberField(String cardNumber) {

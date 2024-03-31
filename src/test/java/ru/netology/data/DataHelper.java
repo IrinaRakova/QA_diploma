@@ -143,4 +143,9 @@ public class DataHelper {
     public static String get3Numbers() {
         return FAKER.regexify("[0-9]{3}");
     }
+
+    public static String getMoreThen12(){
+        int randomNum = new Random().nextInt(99 - 12 + 1) + 12;
+        return Integer.toString(randomNum);
+    }
 }

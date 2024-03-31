@@ -6,7 +6,7 @@ import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Condition.visible;
 
-public class PaymentGatePage {
+public class PaymentGatePage extends FormPage {
     private SelenideElement paymentHead = $(byText("Оплата по карте"));
 
     public FormPage formPage() {
